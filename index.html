@@ -18,8 +18,9 @@
             </div>
             <br>
             <div class="col-md-3" id="search-box">
-                <p id="box">Search for a city</p>
+                <h4 id="box">Search for a city</h4>
                 <input type="text" class="form-control" id="add-city" placeholder="location">
+                <br />
                 <button class="btn btn-outline-secondary" type="button" id="search">Search</button>
 
                 <div class="accordion" id="accordionExample">
@@ -38,7 +39,7 @@
                 </div>
 
 
-                <div class="row" id="5dayForecastTitle"></div>
+                <div class="row" id="dayForecastTitle"></div>
                 
                 <div class="row" id="dayForecast"></div>
 
@@ -59,7 +60,7 @@
             event.preventDefault();
             $("#current-weather").empty();
             $("#5dayForecast").empty();
-            $("#5dayForecastTitle").empty();
+            $("#dayForecastTitle").empty();
             var city = $("#add-city").val();
             var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=add980b0e4dcc7dac5f789a39df8c020";
             $.ajax({
@@ -67,6 +68,9 @@
                 method: "GET"
             }).then(function (response) {
                 searchHistory.push(city);
+                
+                
+                //Array.includes
                 console.log("displayWeather()");
                 console.log(response)
                 $("#current-weather").append("<h1>" + response.name + "</h1>");
@@ -79,11 +83,13 @@
         }
 
 
+        
+
 
         function callFormHistory() {
             $("#current-weather").empty();
             $("#dayForecast").empty();
-            $("#5dayForecastTitle").empty();
+            $("#dayForecastTitle").empty();
             var city = $(this).text();
             $("#add-city").val(city);
             console.log(city);
@@ -114,6 +120,7 @@
                 var a = $("<button>");
                 a.on("click", callFormHistory);
                 a.text(searchHistory[i]);
+                
                 $("#location-holder").append(a);
             }
         }
@@ -157,11 +164,12 @@
                 method: "GET"
             }).then(function (response) {
                 console.log(response);
-                $("#5dayForecastTitle").append("<h2>" + "5 Day Forecast" + "</h2>" + "<br>");
+                $("#dayForecastTitle").append("<h2>" + "5 Day Forecast" + "</h2>" + "<br>");
                 for (var i = 0; i < response.list.length; i += 8) {
-                    var col = $("<div class = 'col-md-2'>");
+                    var col = $("<div class = 'col-lg-4 col-sm-6'>");
 
-                    var div = $("<div class='card' style='width: 18rem margin:10px'>");
+                        // style='width: 25rem; margin:5px'
+                    var div = $("<div class='card' >");
                     var date = filter(response.list[i].dt_txt);
                     console.log(date);
                     div.append("<p >"+"<strong>Date:</strong>" + "<br>"+date + "</p>");

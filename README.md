@@ -1,46 +1,81 @@
-# 06 Server-Side APIs: Weather Dashboard
-
-Developers are often tasked with retrieving data from another application's API and using it in the context of their own. Third-party APIs allow developers to access their data and functionality by making requests with specific parameters to a URL. Your challenge is to build a weather dashboard that will run in the browser and feature dynamically updated HTML and CSS.
-
-Use the [OpenWeather API](https://openweathermap.org/api) to retrieve weather data for cities. The documentation includes a section called "How to start" that will provide basic setup and usage instructions. Use `localStorage` to store any persistent data.
+#  Weather Dashboard
 
 ## User Story
 
 ```
-AS A traveler
-I WANT to see the weather outlook for multiple cities
-SO THAT I can plan a trip accordingly
+For the user like to travel around
+This website able to tell them about the real time weather of the location they search for and also the 5 day forecast.
 ```
 
-## Acceptance Criteria
+##  Website
 
+![weather dashboard demo](./Assets/website.png)
+
+## Funtion
+
+* search for city, get the api source from the open weather map
+```js
+    function displayCity(event) {
+            event.preventDefault();
+            $("#current-weather").empty();
+            $("#5dayForecast").empty();
+            $("#dayForecastTitle").empty();
+            var city = $("#add-city").val();
+            var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=add980b0e4dcc7dac5f789a39df8c020";
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            }).then(function (response) {
+                searchHistory.push(city);
+ ```
+
+* Get information from the api response
+
+```js
+ $("#current-weather").append("<h1>" + response.name + "</h1>");
+                
+                renderResult(response);
+                renderUV(response.coord.lat, response.coord.lon);
+                weatherForecast(city);
 ```
-GIVEN a weather dashboard with form inputs
-WHEN I search for a city
-THEN I am presented with current and future conditions for that city and that city is added to the search history
-WHEN I view current weather conditions for that city
-THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index
-WHEN I view the UV index
-THEN I am presented with a color that indicates whether the conditions are favorable, moderate, or severe
-WHEN I view future weather conditions for that city
-THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, and the humidity
-WHEN I click on a city in the search history
-THEN I am again presented with current and future conditions for that city
-WHEN I open the weather dashboard
-THEN I am presented with the last searched city forecast
+* Classify the level of UV index by using if statement 
+
+```js
+if (parseInt(response.value) <= 5) {
+                    $("#uv").css("backgroundColor", "green");
+                }
+                else if (parseInt(response.value) <= 10) {
+                    $("#uv").css("backgroundColor", "yellow");
+                }
+                else {
+                    $("#uv").css("backgroundColor", "red");
 ```
 
-The following image demonstrates the application functionality:
 
-![weather dashboard demo](./Assets/06-server-side-apis-homework-demo.png)
+* Forecast the weather with get info from forecsting api
 
-## Review
+```js
+ var queryURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=add980b0e4dcc7dac5f789a39df8c020";
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            }).then(function (response) {
+                console.log(response);
+                $("#dayForecastTitle").append("<h2>" + "5 Day Forecast" + "</h2>" + "<br>");
+                for (var i = 0; i < response.list.length; i += 8) {
+                    var col = $("<div class = 'col-lg-4 col-sm-6'>");
 
-You are required to submit the following for review:
+                        // style='width: 25rem; margin:5px'
+                    var div = $("<div class='card' >");
+                    var date = filter(response.list[i].dt_txt);
+                    console.log(date);
+                    div.append("<p >"+"<strong>Date:</strong>" + "<br>"+date + "</p>");
+                    div.append("<p>" + "<strong>Temperture:</strong>"+"<br>"+response.list[i].main.temp + "</p>");
+                    div.append("<p>" + "<strong>Humidity:</strong>"+"<br>"+response.list[i].main.humidity + "</p>");
+                    col.append(div)
 
-* The URL of the deployed application.
-
-* The URL of the GitHub repository. Give the repository a unique name and include a README describing the project.
-
+                    $("#dayForecast").append(col);
+      
+```
 - - -
-© 2019 Trilogy Education Services, a 2U, Inc. brand. All Rights Reserved.
+© 2020 shelly tan 
