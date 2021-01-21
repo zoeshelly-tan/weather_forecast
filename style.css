@@ -1,0 +1,38 @@
+#title-box{
+    background-color:lightskyblue;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 0;
+}
+
+#title{
+    font-size: 40px;
+    color: white;
+}
+
+#box{
+background-color: lightskyblue;
+}
+
+#search-box{
+    padding: 10px;
+    width: 100%;
+    border: 1px solid  lightskyblue;
+    margin: 10px 10px 0px 0px;
+        }
+
+#current-weather{
+    padding: 10px;
+    width: 100%;
+    border: 1px solid  lightskyblue;
+    margin: 10px 10px 0px 0px;
+}
+
+
+
+.card{
+    margin: 10px;
+}
