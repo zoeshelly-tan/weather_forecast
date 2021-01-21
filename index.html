@@ -74,7 +74,7 @@
                 console.log("displayWeather()");
                 console.log(response)
                 $("#current-weather").append("<h1>" + response.name + "</h1>");
-                // displayTime()
+                
                 renderResult(response);
                 renderUV(response.coord.lat, response.coord.lon);
                 weatherForecast(city);
@@ -107,11 +107,7 @@
             })
         }
 
-        // function displayTime() {
-        //     var time = moment().subtract(10, 'days').calendar();
-        //     console.log(time.toString());
-        //     $("#current-weather").text(time.toString());
-        // }
+  
 
         function createHistory() {
             $("#location-holder").empty()
