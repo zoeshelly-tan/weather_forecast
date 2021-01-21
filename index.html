@@ -59,7 +59,7 @@
         function displayCity(event) {
             event.preventDefault();
             $("#current-weather").empty();
-            $("#5dayForecast").empty();
+            $("#dayForecast").empty();
             $("#dayForecastTitle").empty();
             var city = $("#add-city").val();
             var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=add980b0e4dcc7dac5f789a39df8c020";
